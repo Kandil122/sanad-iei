@@ -106,20 +106,18 @@ function GamesPage() {
                 </div>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">{g.description}</p>
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between gap-2">
                 <span className="text-xs font-bold text-muted-foreground">
                   حوالي {g.minutes} دقائق
                 </span>
-                {g.playable ? (
-                  <span className="rounded-full bg-success px-4 py-1.5 text-xs font-extrabold text-success-foreground">
-                    قابلة للعب الآن
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-muted px-4 py-1.5 text-xs font-extrabold text-muted-foreground">
-                    قريبًا
-                  </span>
-                )}
+                <button
+                  onClick={() => startGame(g)}
+                  className="rounded-full bg-success px-5 py-2 text-xs font-extrabold text-success-foreground shadow-card hover:opacity-90"
+                >
+                  العب الآن
+                </button>
               </div>
+
             </article>
           ))}
         </div>
