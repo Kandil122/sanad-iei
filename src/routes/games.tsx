@@ -29,10 +29,18 @@ export const Route = createFileRoute("/games")({
 
 function GamesPage() {
   const [active, setActive] = useState<GameCategory | "الكل">("الكل");
+  const [current, setCurrent] = useState<Game>(games[0]!);
+  const [playing, setPlaying] = useState(false);
   const filtered = useMemo(
     () => (active === "الكل" ? games : games.filter((g) => g.category === active)),
     [active],
   );
+
+  const startGame = (game: Game) => {
+    setCurrent(game);
+    setPlaying(true);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <AppShell>
@@ -43,8 +51,31 @@ function GamesPage() {
         </p>
 
         <div className="mt-8">
-          <MatchingGame />
+          {playing ? (
+            <GamePlayer
+              key={current.id + String(playing)}
+              game={current}
+              onClose={() => setPlaying(false)}
+            />
+          ) : (
+            <div className="rounded-[2rem] bg-card p-6 text-center shadow-play sm:p-8">
+              <span className="text-6xl">🎮</span>
+              <h2 className="mt-3 font-display text-2xl font-extrabold text-ink">
+                اختر لعبة وابدأ اللعب
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                كل الألعاب أدناه قابلة للعب الآن — اضغط «العب» على أي بطاقة.
+              </p>
+              <button
+                onClick={() => startGame(current)}
+                className="mt-5 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-card"
+              >
+                العب {current.title}
+              </button>
+            </div>
+          )}
         </div>
+
 
         <div className="mt-10 flex flex-wrap gap-2">
           {(["الكل", ...categories] as const).map((cat) => (
