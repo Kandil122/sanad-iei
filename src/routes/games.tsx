@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, RotateCcw, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { categories, games, type GameCategory } from "@/lib/content";
+import { GamePlayer } from "@/components/GamePlayer";
+import { categories, games, type Game, type GameCategory } from "@/lib/content";
+
 
 export const Route = createFileRoute("/games")({
   head: () => ({
