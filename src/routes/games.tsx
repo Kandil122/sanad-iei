@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, RotateCcw, Star } from "lucide-react";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { categories, games, type GameCategory } from "@/lib/content";
+import { GamePlayer } from "@/components/GamePlayer";
+import { categories, games, type Game, type GameCategory } from "@/lib/content";
+
 
 export const Route = createFileRoute("/games")({
   head: () => ({
@@ -25,94 +26,21 @@ export const Route = createFileRoute("/games")({
   component: GamesPage,
 });
 
-const POOL = ["🍎", "🐶", "🚗", "⭐", "🌸", "🐟", "🎈", "🍌", "🐱", "🚀"];
-
-function buildRound() {
-  const shuffled = [...POOL].sort(() => Math.random() - 0.5);
-  const target = shuffled[0]!;
-  const options = [target, shuffled[1]!, shuffled[2]!].sort(() => Math.random() - 0.5);
-  return { target, options };
-}
-
-function MatchingGame() {
-  const [round, setRound] = useState(buildRound);
-  const [score, setScore] = useState(0);
-  const [wrong, setWrong] = useState<string | null>(null);
-  const [correct, setCorrect] = useState(false);
-
-  const handlePick = (option: string) => {
-    if (option === round.target) {
-      setCorrect(true);
-      setWrong(null);
-      setScore((s) => s + 1);
-      setTimeout(() => {
-        setCorrect(false);
-        setRound(buildRound());
-      }, 800);
-    } else {
-      setWrong(option);
-      setTimeout(() => setWrong(null), 600);
-    }
-  };
-
-  return (
-    <div className="rounded-[2rem] bg-card p-6 shadow-play sm:p-8">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-2xl font-extrabold text-ink">🧩 طابِق الصور</h2>
-          <p className="text-sm text-muted-foreground">اختر الصورة المشابهة للصورة الكبيرة.</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-extrabold text-accent-foreground">
-            <Star className="size-4" /> النقاط: {score}
-          </span>
-          <button
-            onClick={() => {
-              setScore(0);
-              setRound(buildRound());
-            }}
-            className="grid size-10 place-items-center rounded-2xl bg-muted text-foreground"
-            aria-label="إعادة اللعبة"
-          >
-            <RotateCcw className="size-4" />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-6 grid place-items-center rounded-3xl bg-muted py-10">
-        <span className={`text-7xl ${correct ? "" : "animate-float"}`}>{round.target}</span>
-        {correct && (
-          <p className="mt-3 flex items-center gap-2 text-lg font-extrabold text-success">
-            <Check className="size-5" /> أحسنت!
-          </p>
-        )}
-      </div>
-
-      <div className="mt-5 grid grid-cols-3 gap-3">
-        {round.options.map((option) => (
-          <button
-            key={option}
-            onClick={() => handlePick(option)}
-            className={`tile-pop grid place-items-center rounded-3xl border-4 py-8 text-5xl shadow-card hover:-translate-y-1 ${
-              wrong === option
-                ? "border-destructive bg-destructive/10"
-                : "border-transparent bg-background"
-            }`}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function GamesPage() {
   const [active, setActive] = useState<GameCategory | "الكل">("الكل");
+  const [current, setCurrent] = useState<Game>(games[0]!);
+  const [playing, setPlaying] = useState(false);
   const filtered = useMemo(
     () => (active === "الكل" ? games : games.filter((g) => g.category === active)),
     [active],
   );
+
+  const startGame = (game: Game) => {
+    setCurrent(game);
+    setPlaying(true);
+    if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <AppShell>
@@ -123,8 +51,31 @@ function GamesPage() {
         </p>
 
         <div className="mt-8">
-          <MatchingGame />
+          {playing ? (
+            <GamePlayer
+              key={current.id + String(playing)}
+              game={current}
+              onClose={() => setPlaying(false)}
+            />
+          ) : (
+            <div className="rounded-[2rem] bg-card p-6 text-center shadow-play sm:p-8">
+              <span className="text-6xl">🎮</span>
+              <h2 className="mt-3 font-display text-2xl font-extrabold text-ink">
+                اختر لعبة وابدأ اللعب
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                كل الألعاب أدناه قابلة للعب الآن — اضغط «العب» على أي بطاقة.
+              </p>
+              <button
+                onClick={() => startGame(current)}
+                className="mt-5 rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-card"
+              >
+                العب {current.title}
+              </button>
+            </div>
+          )}
         </div>
+
 
         <div className="mt-10 flex flex-wrap gap-2">
           {(["الكل", ...categories] as const).map((cat) => (
@@ -155,20 +106,18 @@ function GamesPage() {
                 </div>
               </div>
               <p className="mt-3 text-sm text-muted-foreground">{g.description}</p>
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-4 flex items-center justify-between gap-2">
                 <span className="text-xs font-bold text-muted-foreground">
                   حوالي {g.minutes} دقائق
                 </span>
-                {g.playable ? (
-                  <span className="rounded-full bg-success px-4 py-1.5 text-xs font-extrabold text-success-foreground">
-                    قابلة للعب الآن
-                  </span>
-                ) : (
-                  <span className="rounded-full bg-muted px-4 py-1.5 text-xs font-extrabold text-muted-foreground">
-                    قريبًا
-                  </span>
-                )}
+                <button
+                  onClick={() => startGame(g)}
+                  className="rounded-full bg-success px-5 py-2 text-xs font-extrabold text-success-foreground shadow-card hover:opacity-90"
+                >
+                  العب الآن
+                </button>
               </div>
+
             </article>
           ))}
         </div>

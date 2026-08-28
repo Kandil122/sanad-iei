@@ -40,6 +40,7 @@ export const games: Game[] = [
     emoji: "🎨",
     description: "تعرّف على الألوان الأساسية وسمّها مع تعزيز صوتي.",
     minutes: 3,
+    playable: true,
   },
   {
     id: "shapes",
@@ -48,6 +49,7 @@ export const games: Game[] = [
     emoji: "🔷",
     description: "مربع، دائرة، مثلث… مطابقة الأشكال وتسميتها.",
     minutes: 3,
+    playable: true,
   },
   {
     id: "letters",
@@ -56,6 +58,7 @@ export const games: Game[] = [
     emoji: "🔤",
     description: "من الألف إلى الياء مع صوت الحرف وكلمة تبدأ به.",
     minutes: 5,
+    playable: true,
   },
   {
     id: "first-words",
@@ -64,6 +67,7 @@ export const games: Game[] = [
     emoji: "🗣️",
     description: "بطاقات كلمات يومية بالصوت والصورة لتحفيز النطق.",
     minutes: 4,
+    playable: true,
   },
   {
     id: "animal-sounds",
@@ -72,6 +76,7 @@ export const games: Game[] = [
     emoji: "🐘",
     description: "اربط الحيوان بصوته لتنمية الانتباه السمعي.",
     minutes: 3,
+    playable: true,
   },
   {
     id: "brush-teeth",
@@ -80,6 +85,7 @@ export const games: Game[] = [
     emoji: "🪥",
     description: "خطوات تنظيف الأسنان بالترتيب كسلسلة روتين يومي.",
     minutes: 4,
+    playable: true,
   },
   {
     id: "dressing",
@@ -88,6 +94,7 @@ export const games: Game[] = [
     emoji: "👕",
     description: "ترتيب خطوات اللبس واختيار الملابس المناسبة للطقس.",
     minutes: 4,
+    playable: true,
   },
   {
     id: "counting",
@@ -96,6 +103,7 @@ export const games: Game[] = [
     emoji: "🔢",
     description: "العد من ١ إلى ١٠ مع أشياء محسوسة.",
     minutes: 3,
+    playable: true,
   },
   {
     id: "more-less",
@@ -104,6 +112,7 @@ export const games: Game[] = [
     emoji: "⚖️",
     description: "مقارنة الكميات بصريًا لبناء الحس العددي.",
     minutes: 3,
+    playable: true,
   },
   {
     id: "emotions",
@@ -112,6 +121,7 @@ export const games: Game[] = [
     emoji: "😊",
     description: "التعرّف على تعبيرات الوجه وتسمية المشاعر.",
     minutes: 4,
+    playable: true,
   },
   {
     id: "turn-taking",
@@ -120,6 +130,7 @@ export const games: Game[] = [
     emoji: "🤝",
     description: "لعبة تبادل الأدوار لتعليم الانتظار والمشاركة.",
     minutes: 5,
+    playable: true,
   },
 ];
 
