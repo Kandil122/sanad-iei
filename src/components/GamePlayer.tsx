@@ -116,20 +116,20 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
         <div className="mt-8 grid place-items-center rounded-3xl bg-muted py-14 text-center">
           <span className="text-7xl">🎉</span>
           <p className="mt-4 font-display text-2xl font-extrabold text-ink">
-            أكملت اللعبة! نتيجتك {score} من {rounds.length}
+            {score} / {rounds.length} 🌟
           </p>
           <div className="mt-5 flex gap-3">
             <button
               onClick={restart}
               className="rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-card"
             >
-              العب مرة أخرى
+              إعادة
             </button>
             <button
               onClick={onClose}
               className="rounded-full bg-card px-6 py-3 text-sm font-extrabold text-foreground shadow-card"
             >
-              رجوع للألعاب
+              رجوع
             </button>
           </div>
         </div>
@@ -216,7 +216,7 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
 
       {!done && (
         <p className="mt-4 text-center text-xs font-bold text-muted-foreground">
-          السؤال {index + 1} من {rounds.length}
+          {index + 1} / {rounds.length}
         </p>
       )}
     </div>
