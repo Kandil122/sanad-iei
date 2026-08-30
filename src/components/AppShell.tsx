@@ -102,6 +102,25 @@ export function AppShell({ children }: { children: ReactNode }) {
                 {item.label}
               </Link>
             ))}
+            {user ? (
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  void signOut();
+                }}
+                className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-base font-bold text-destructive"
+              >
+                <LogOut className="size-5" /> تسجيل الخروج
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setOpen(false)}
+                className="mt-1 block rounded-2xl bg-primary px-3 py-3 text-center text-base font-extrabold text-primary-foreground"
+              >
+                تسجيل الدخول
+              </Link>
+            )}
           </nav>
         )}
       </header>
