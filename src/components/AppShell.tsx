@@ -1,6 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { Gamepad2, MessageCircleHeart, LineChart, Home, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { Gamepad2, MessageCircleHeart, LineChart, Home, Menu, X, LogOut } from "lucide-react";
 import { useState, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 
 const nav = [
   { to: "/", label: "الرئيسية", icon: Home },
@@ -11,6 +14,16 @@ const nav = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const { user } = useSession();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    void navigate({ to: "/auth", replace: true });
+  };
 
   return (
     <div className="min-h-screen">
