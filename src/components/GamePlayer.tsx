@@ -1,16 +1,13 @@
-import { Check, RotateCcw, Star, X } from "lucide-react";
+import { Check, RotateCcw, Star, Volume2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { buildRounds, type Round } from "@/lib/games";
+import { speak as speakArabic } from "@/lib/speech";
 import type { Game } from "@/lib/content";
 
 function speak(text: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  const utter = new SpeechSynthesisUtterance(text.replace(/[^\p{L}\p{N}\s؟!،]/gu, ""));
-  utter.lang = "ar";
-  utter.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
+  void speakArabic(text);
 }
+
 
 export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void }) {
   const [rounds, setRounds] = useState<Round[]>(() => buildRounds(game.id));
@@ -83,16 +80,21 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
   return (
     <div className="rounded-[2rem] bg-card p-6 shadow-play sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-2xl font-extrabold text-ink">
-            {game.emoji} {game.title}
-          </h2>
-          <p className="text-sm text-muted-foreground">{game.description}</p>
-        </div>
+        <h2 className="font-display text-2xl font-extrabold text-ink">
+          {game.emoji} {game.title}
+        </h2>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-extrabold text-accent-foreground">
-            <Star className="size-4" /> النقاط: {score}
+            <Star className="size-4" /> {score}
           </span>
+          <button
+            onClick={() => round && speak(round.prompt)}
+            className="grid size-10 place-items-center rounded-2xl bg-sun text-ink"
+            aria-label="سماع السؤال"
+          >
+            <Volume2 className="size-4" />
+          </button>
+
           <button
             onClick={restart}
             className="grid size-10 place-items-center rounded-2xl bg-muted text-foreground"
@@ -114,20 +116,20 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
         <div className="mt-8 grid place-items-center rounded-3xl bg-muted py-14 text-center">
           <span className="text-7xl">🎉</span>
           <p className="mt-4 font-display text-2xl font-extrabold text-ink">
-            أكملت اللعبة! نتيجتك {score} من {rounds.length}
+            {score} / {rounds.length} 🌟
           </p>
           <div className="mt-5 flex gap-3">
             <button
               onClick={restart}
               className="rounded-full bg-primary px-6 py-3 text-sm font-extrabold text-primary-foreground shadow-card"
             >
-              العب مرة أخرى
+              إعادة
             </button>
             <button
               onClick={onClose}
               className="rounded-full bg-card px-6 py-3 text-sm font-extrabold text-foreground shadow-card"
             >
-              رجوع للألعاب
+              رجوع
             </button>
           </div>
         </div>
@@ -214,7 +216,7 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
 
       {!done && (
         <p className="mt-4 text-center text-xs font-bold text-muted-foreground">
-          السؤال {index + 1} من {rounds.length}
+          {index + 1} / {rounds.length}
         </p>
       )}
     </div>

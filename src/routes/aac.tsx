@@ -1,3 +1,4 @@
+import { speak as speakArabic } from "@/lib/speech";
 import { createFileRoute } from "@tanstack/react-router";
 import { Volume2, Delete, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -7,7 +8,7 @@ import { aacBoard } from "@/lib/content";
 export const Route = createFileRoute("/aac")({
   head: () => ({
     meta: [
-      { title: "لوحة التواصل البديل بالعربية | أوتسيمو" },
+      { title: "لوحة التواصل البديل بالعربية | سند" },
       {
         name: "description",
         content:
@@ -25,14 +26,10 @@ export const Route = createFileRoute("/aac")({
   component: AacPage,
 });
 
-function speak(text: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = "ar";
-  utter.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
-}
+const speak = (text: string) => {
+  void speakArabic(text);
+};
+
 
 function AacPage() {
   const [sentence, setSentence] = useState<{ label: string; emoji: string }[]>([]);

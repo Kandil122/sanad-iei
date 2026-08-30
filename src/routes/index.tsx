@@ -7,13 +7,13 @@ import { games } from "@/lib/content";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "أوتسيمو بالعربية | تعليم خاص وعلاج تخاطب للأطفال" },
+      { title: "سند | تعليم خاص وعلاج تخاطب للأطفال" },
       {
         name: "description",
         content:
-          "منصة أوتسيمو بالعربية: أكثر من ٦٠ لعبة تعليمية لأطفال طيف التوحد ومتلازمة داون وتأخر النطق، مع لوحة تواصل بديل وتقارير تقدم للأهل.",
+          "منصة سند: أكثر من ٦٠ لعبة تعليمية لأطفال طيف التوحد ومتلازمة داون وتأخر النطق، مع لوحة تواصل بديل وتقارير تقدم للأهل.",
       },
-      { property: "og:title", content: "أوتسيمو بالعربية | تعليم خاص للأطفال" },
+      { property: "og:title", content: "سند | تعليم خاص للأطفال" },
       {
         property: "og:description",
         content: "ألعاب تعليمية عربية، لوحة تواصل بديل، وتقارير تقدم — بدون إعلانات وآمن للأطفال.",
@@ -126,26 +126,19 @@ function Index() {
           </Link>
         </div>
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           {games.slice(0, 6).map((g) => (
             <Link
               key={g.id}
               to="/games"
-              className="tile-pop rounded-3xl bg-card p-6 shadow-card hover:-translate-y-1 hover:shadow-play"
+              className="tile-pop grid place-items-center gap-2 rounded-3xl bg-card p-5 text-center shadow-card hover:-translate-y-1 hover:shadow-play"
             >
-              <div className="flex items-center gap-3">
-                <span className="grid size-14 place-items-center rounded-2xl bg-muted text-3xl">
-                  {g.emoji}
-                </span>
-                <div>
-                  <h3 className="text-lg font-extrabold text-ink">{g.title}</h3>
-                  <p className="text-xs font-bold text-secondary">{g.category}</p>
-                </div>
-              </div>
-              <p className="mt-3 text-sm text-muted-foreground">{g.description}</p>
+              <span className="text-5xl">{g.emoji}</span>
+              <h3 className="text-sm font-extrabold text-ink">{g.title}</h3>
             </Link>
           ))}
         </div>
+
       </section>
 
       <section className="mx-auto mt-20 max-w-6xl px-4">

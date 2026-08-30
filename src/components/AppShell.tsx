@@ -20,7 +20,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <span className="grid size-10 place-items-center rounded-2xl bg-sun text-xl shadow-card">
               🌟
             </span>
-            <span className="font-display text-2xl font-extrabold text-ink">أوتسيمو</span>
+            <span className="font-display text-2xl font-extrabold text-ink">سند</span>
           </Link>
 
           <nav className="mr-auto hidden items-center gap-1 md:flex">
@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <footer className="mt-20 border-t border-border/60 bg-card/70">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 md:grid-cols-4">
           <div>
-            <p className="font-display text-2xl font-extrabold text-ink">أوتسيمو</p>
+            <p className="font-display text-2xl font-extrabold text-ink">سند</p>
             <p className="mt-2 text-sm text-muted-foreground">
               تعليم خاص وعلاج تخاطب للأطفال، بالعربية الفصحى وبأسلوب اللعب.
             </p>
@@ -107,7 +107,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
         </div>
         <p className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} أوتسيمو بالعربية — بدون إعلانات، آمن للأطفال.
+          © {new Date().getFullYear()} سند — بدون إعلانات، آمن للأطفال.
         </p>
       </footer>
     </div>
