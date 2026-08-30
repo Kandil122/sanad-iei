@@ -155,7 +155,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div>
             <p className="mb-3 font-bold text-foreground">الدعم</p>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>الأسئلة الشائعة</li>
+              <li>
+                <Link to="/agreement" className="hover:text-foreground">
+                  اتفاقية الاستخدام والخصوصية
+                </Link>
+              </li>
               <li>دليل الأهل</li>
               <li>تواصل معنا</li>
             </ul>
