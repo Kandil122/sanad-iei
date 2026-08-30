@@ -1,16 +1,13 @@
-import { Check, RotateCcw, Star, X } from "lucide-react";
+import { Check, RotateCcw, Star, Volume2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { buildRounds, type Round } from "@/lib/games";
+import { speak as speakArabic } from "@/lib/speech";
 import type { Game } from "@/lib/content";
 
 function speak(text: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  const utter = new SpeechSynthesisUtterance(text.replace(/[^\p{L}\p{N}\s؟!،]/gu, ""));
-  utter.lang = "ar";
-  utter.rate = 0.85;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
+  void speakArabic(text);
 }
+
 
 export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void }) {
   const [rounds, setRounds] = useState<Round[]>(() => buildRounds(game.id));
