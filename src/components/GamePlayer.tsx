@@ -80,16 +80,21 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
   return (
     <div className="rounded-[2rem] bg-card p-6 shadow-play sm:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h2 className="font-display text-2xl font-extrabold text-ink">
-            {game.emoji} {game.title}
-          </h2>
-          <p className="text-sm text-muted-foreground">{game.description}</p>
-        </div>
+        <h2 className="font-display text-2xl font-extrabold text-ink">
+          {game.emoji} {game.title}
+        </h2>
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-extrabold text-accent-foreground">
-            <Star className="size-4" /> النقاط: {score}
+            <Star className="size-4" /> {score}
           </span>
+          <button
+            onClick={() => round && speak(round.prompt)}
+            className="grid size-10 place-items-center rounded-2xl bg-sun text-ink"
+            aria-label="سماع السؤال"
+          >
+            <Volume2 className="size-4" />
+          </button>
+
           <button
             onClick={restart}
             className="grid size-10 place-items-center rounded-2xl bg-muted text-foreground"
