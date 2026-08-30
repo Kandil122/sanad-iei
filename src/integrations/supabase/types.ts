@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      game_sessions: {
+        Row: {
+          category: string | null
+          created_at: string
+          game_id: string
+          game_title: string
+          id: string
+          score: number
+          seconds_played: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          game_id: string
+          game_title: string
+          id?: string
+          score?: number
+          seconds_played?: number
+          total?: number
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          game_id?: string
+          game_title?: string
+          id?: string
+          score?: number
+          seconds_played?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          agreement_accepted_at: string | null
+          avatar_url: string | null
+          child_name: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          agreement_accepted_at?: string | null
+          avatar_url?: string | null
+          child_name?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          agreement_accepted_at?: string | null
+          avatar_url?: string | null
+          child_name?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
