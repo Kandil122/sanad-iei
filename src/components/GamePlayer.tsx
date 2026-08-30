@@ -1,6 +1,7 @@
 import { Check, RotateCcw, Star, Volume2, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { buildRounds, type Round } from "@/lib/games";
+import { saveGameSession } from "@/lib/progress";
 import { speak as speakArabic } from "@/lib/speech";
 import type { Game } from "@/lib/content";
 
@@ -17,6 +18,8 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
   const [correct, setCorrect] = useState(false);
   const [done, setDone] = useState(false);
   const [ordered, setOrdered] = useState<string[]>([]);
+  const startedAt = useRef(Date.now());
+  const saved = useRef(false);
 
   const round = rounds[index];
 
@@ -28,6 +31,19 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
   useEffect(() => {
     if (round) speak(round.prompt);
   }, [round]);
+
+  useEffect(() => {
+    if (!done || saved.current) return;
+    saved.current = true;
+    void saveGameSession({
+      game_id: game.id,
+      game_title: game.title,
+      category: game.category,
+      score,
+      total: rounds.length,
+      seconds_played: Math.round((Date.now() - startedAt.current) / 1000),
+    });
+  }, [done, game.id, game.title, game.category, score, rounds.length]);
 
   const restart = () => {
     setRounds(buildRounds(game.id));
