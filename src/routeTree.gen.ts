@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AacRouteImport } from './routes/aac'
+import { Route as AgreementRouteImport } from './routes/agreement'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GamesRouteImport } from './routes/games'
 import { Route as ReportsRouteImport } from './routes/reports'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AacRoute = AacRouteImport.update({
   id: '/aac',
   path: '/aac',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgreementRoute = AgreementRouteImport.update({
+  id: '/agreement',
+  path: '/agreement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -44,6 +50,7 @@ const ReportsRoute = ReportsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
   '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
   '/reports': typeof ReportsRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
   '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
   '/reports': typeof ReportsRoute
@@ -59,21 +67,23 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
   '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
   '/reports': typeof ReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/aac' | '/auth' | '/games' | '/reports'
+  fullPaths: '/' | '/aac' | '/agreement' | '/auth' | '/games' | '/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/aac' | '/auth' | '/games' | '/reports'
-  id: '__root__' | '/' | '/aac' | '/auth' | '/games' | '/reports'
+  to: '/' | '/aac' | '/agreement' | '/auth' | '/games' | '/reports'
+  id: '__root__' | '/' | '/aac' | '/agreement' | '/auth' | '/games' | '/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AacRoute: typeof AacRoute
+  AgreementRoute: typeof AgreementRoute
   AuthRoute: typeof AuthRoute
   GamesRoute: typeof GamesRoute
   ReportsRoute: typeof ReportsRoute
@@ -93,6 +103,13 @@ declare module '@tanstack/react-router' {
       path: '/aac'
       fullPath: '/aac'
       preLoaderRoute: typeof AacRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agreement': {
+      id: '/agreement'
+      path: '/agreement'
+      fullPath: '/agreement'
+      preLoaderRoute: typeof AgreementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -122,6 +139,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AacRoute: AacRoute,
+  AgreementRoute: AgreementRoute,
   AuthRoute: AuthRoute,
   GamesRoute: GamesRoute,
   ReportsRoute: ReportsRoute,
