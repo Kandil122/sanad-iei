@@ -67,8 +67,12 @@ export async function acceptAgreement(childName?: string) {
   const { data: auth } = await supabase.auth.getSession();
   const userId = auth.session?.user.id;
   if (!userId) throw new Error("لا توجد جلسة");
-  const patch: Record<string, unknown> = { agreement_accepted_at: new Date().toISOString() };
-  if (childName) patch['child_name'] = childName;
-  const { error } = await supabase.from("profiles").update(patch).eq("id", userId);
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      agreement_accepted_at: new Date().toISOString(),
+      ...(childName ? { child_name: childName } : {}),
+    })
+    .eq("id", userId);
   if (error) throw error;
 }
