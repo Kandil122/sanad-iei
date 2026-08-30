@@ -1,3 +1,4 @@
+import { speak as speakArabic } from "@/lib/speech";
 import { createFileRoute } from "@tanstack/react-router";
 import { Volume2, Delete, Trash2 } from "lucide-react";
 import { useState } from "react";
