@@ -53,6 +53,8 @@ export function GamePlayer({ game, onClose }: { game: Game; onClose: () => void 
     setOrdered([]);
     setCorrect(false);
     setWrong(null);
+    startedAt.current = Date.now();
+    saved.current = false;
   };
 
   const next = () => {
