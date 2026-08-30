@@ -50,12 +50,35 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <Link
-            to="/games"
-            className="hidden rounded-full bg-primary px-5 py-2 text-sm font-extrabold text-primary-foreground shadow-card transition-transform hover:scale-105 md:inline-block"
-          >
-            ابدأ اللعب
-          </Link>
+          {user ? (
+            <div className="hidden items-center gap-2 md:flex">
+              <span className="grid size-9 place-items-center overflow-hidden rounded-full bg-sea text-sm font-extrabold text-primary-foreground">
+                {user.user_metadata?.['avatar_url'] ? (
+                  <img
+                    src={user.user_metadata['avatar_url'] as string}
+                    alt=""
+                    className="size-9 object-cover"
+                  />
+                ) : (
+                  (user.email?.[0] ?? "؟").toUpperCase()
+                )}
+              </span>
+              <button
+                onClick={() => void signOut()}
+                aria-label="تسجيل الخروج"
+                className="grid size-9 place-items-center rounded-full bg-muted text-destructive"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              className="hidden rounded-full bg-primary px-5 py-2 text-sm font-extrabold text-primary-foreground shadow-card transition-transform hover:scale-105 md:inline-block"
+            >
+              تسجيل الدخول
+            </Link>
+          )}
 
           <button
             aria-label="القائمة"
