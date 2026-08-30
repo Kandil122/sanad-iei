@@ -14,13 +14,13 @@ import { AppShell } from "@/components/AppShell";
 export const Route = createFileRoute("/reports")({
   head: () => ({
     meta: [
-      { title: "تقارير تقدم الطفل | أوتسيمو بالعربية" },
+      { title: "تقارير تقدم الطفل | سند" },
       {
         name: "description",
         content:
-          "لوحة الأهل في أوتسيمو بالعربية: دقائق اللعب اليومية، المهارات المكتسبة، ونسب التقدم في كل مجال مهاري.",
+          "لوحة الأهل في سند: دقائق اللعب اليومية، المهارات المكتسبة، ونسب التقدم في كل مجال مهاري.",
       },
-      { property: "og:title", content: "تقارير تقدم الطفل | أوتسيمو بالعربية" },
+      { property: "og:title", content: "تقارير تقدم الطفل | سند" },
       {
         property: "og:description",
         content: "تابع تقدم طفلك أسبوعيًا: وقت اللعب، دقة الإجابات، والمهارات التي أتمّها.",

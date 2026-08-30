@@ -77,12 +77,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "أوتسيمو بالعربية | تعليم خاص للأطفال" },
+      { title: "سند | تعليم خاص للأطفال" },
       {
         name: "description",
         content: "ألعاب تعليمية عربية للأطفال ذوي الاحتياجات الخاصة، لوحة تواصل بديل، وتقارير تقدم.",
       },
-      { property: "og:title", content: "أوتسيمو بالعربية | تعليم خاص للأطفال" },
+      { property: "og:title", content: "سند | تعليم خاص للأطفال" },
       {
         property: "og:description",
         content: "ألعاب تعليمية عربية، لوحة تواصل بديل، وتقارير تقدم للأهل.",

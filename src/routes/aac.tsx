@@ -7,7 +7,7 @@ import { aacBoard } from "@/lib/content";
 export const Route = createFileRoute("/aac")({
   head: () => ({
     meta: [
-      { title: "لوحة التواصل البديل بالعربية | أوتسيمو" },
+      { title: "لوحة التواصل البديل بالعربية | سند" },
       {
         name: "description",
         content:

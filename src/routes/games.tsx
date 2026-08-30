@@ -8,13 +8,13 @@ import { categories, games, type Game, type GameCategory } from "@/lib/content";
 export const Route = createFileRoute("/games")({
   head: () => ({
     meta: [
-      { title: "ألعاب تعليمية عربية للأطفال | أوتسيمو" },
+      { title: "ألعاب تعليمية عربية للأطفال | سند" },
       {
         name: "description",
         content:
           "أكثر من ٦٠ لعبة تعليمية بالعربية للأطفال: الأساسيات، اللغة والنطق، المهارات الحياتية، الرياضيات والمهارات الاجتماعية — والعب مباشرة لعبة طابِق الصور.",
       },
-      { property: "og:title", content: "ألعاب تعليمية عربية للأطفال | أوتسيمو" },
+      { property: "og:title", content: "ألعاب تعليمية عربية للأطفال | سند" },
       {
         property: "og:description",
         content: "مكتبة ألعاب عربية مقسّمة حسب المهارة، مع لعبة تفاعلية تلعبها الآن.",
