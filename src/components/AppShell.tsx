@@ -1,6 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { Gamepad2, MessageCircleHeart, LineChart, Home, Menu, X } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { Gamepad2, MessageCircleHeart, LineChart, Home, Menu, X, LogOut } from "lucide-react";
 import { useState, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/useSession";
 
 const nav = [
   { to: "/", label: "الرئيسية", icon: Home },
@@ -11,6 +14,16 @@ const nav = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const { user } = useSession();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const signOut = async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await supabase.auth.signOut();
+    void navigate({ to: "/auth", replace: true });
+  };
 
   return (
     <div className="min-h-screen">
@@ -37,12 +50,35 @@ export function AppShell({ children }: { children: ReactNode }) {
             ))}
           </nav>
 
-          <Link
-            to="/games"
-            className="hidden rounded-full bg-primary px-5 py-2 text-sm font-extrabold text-primary-foreground shadow-card transition-transform hover:scale-105 md:inline-block"
-          >
-            ابدأ اللعب
-          </Link>
+          {user ? (
+            <div className="hidden items-center gap-2 md:flex">
+              <span className="grid size-9 place-items-center overflow-hidden rounded-full bg-sea text-sm font-extrabold text-primary-foreground">
+                {user.user_metadata?.['avatar_url'] ? (
+                  <img
+                    src={user.user_metadata['avatar_url'] as string}
+                    alt=""
+                    className="size-9 object-cover"
+                  />
+                ) : (
+                  (user.email?.[0] ?? "؟").toUpperCase()
+                )}
+              </span>
+              <button
+                onClick={() => void signOut()}
+                aria-label="تسجيل الخروج"
+                className="grid size-9 place-items-center rounded-full bg-muted text-destructive"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/auth"
+              className="hidden rounded-full bg-primary px-5 py-2 text-sm font-extrabold text-primary-foreground shadow-card transition-transform hover:scale-105 md:inline-block"
+            >
+              تسجيل الدخول
+            </Link>
+          )}
 
           <button
             aria-label="القائمة"
@@ -66,6 +102,25 @@ export function AppShell({ children }: { children: ReactNode }) {
                 {item.label}
               </Link>
             ))}
+            {user ? (
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  void signOut();
+                }}
+                className="flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-base font-bold text-destructive"
+              >
+                <LogOut className="size-5" /> تسجيل الخروج
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                onClick={() => setOpen(false)}
+                className="mt-1 block rounded-2xl bg-primary px-3 py-3 text-center text-base font-extrabold text-primary-foreground"
+              >
+                تسجيل الدخول
+              </Link>
+            )}
           </nav>
         )}
       </header>
@@ -100,7 +155,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div>
             <p className="mb-3 font-bold text-foreground">الدعم</p>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>الأسئلة الشائعة</li>
+              <li>
+                <Link to="/agreement" className="hover:text-foreground">
+                  اتفاقية الاستخدام والخصوصية
+                </Link>
+              </li>
               <li>دليل الأهل</li>
               <li>تواصل معنا</li>
             </ul>

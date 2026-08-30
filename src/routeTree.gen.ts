@@ -10,13 +10,20 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AacRouteImport } from './routes/aac'
+import { Route as AgreementRouteImport } from './routes/agreement'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as GamesRouteImport } from './routes/games'
-import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AacRoute = AacRouteImport.update({
@@ -24,49 +31,76 @@ const AacRoute = AacRouteImport.update({
   path: '/aac',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AgreementRoute = AgreementRouteImport.update({
+  id: '/agreement',
+  path: '/agreement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GamesRoute = GamesRouteImport.update({
   id: '/games',
   path: '/games',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReportsRoute = ReportsRouteImport.update({
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
+  '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
-  '/reports': typeof ReportsRoute
+  '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
+  '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
-  '/reports': typeof ReportsRoute
+  '/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/aac': typeof AacRoute
+  '/agreement': typeof AgreementRoute
+  '/auth': typeof AuthRoute
   '/games': typeof GamesRoute
-  '/reports': typeof ReportsRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/aac' | '/games' | '/reports'
+  fullPaths: '/' | '/aac' | '/agreement' | '/auth' | '/games' | '/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/aac' | '/games' | '/reports'
-  id: '__root__' | '/' | '/aac' | '/games' | '/reports'
+  to: '/' | '/aac' | '/agreement' | '/auth' | '/games' | '/reports'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/aac'
+    | '/agreement'
+    | '/auth'
+    | '/games'
+    | '/_authenticated/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AacRoute: typeof AacRoute
+  AgreementRoute: typeof AgreementRoute
+  AuthRoute: typeof AuthRoute
   GamesRoute: typeof GamesRoute
-  ReportsRoute: typeof ReportsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,11 +112,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/aac': {
       id: '/aac'
       path: '/aac'
       fullPath: '/aac'
       preLoaderRoute: typeof AacRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agreement': {
+      id: '/agreement'
+      path: '/agreement'
+      fullPath: '/agreement'
+      preLoaderRoute: typeof AgreementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/games': {
@@ -92,21 +147,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reports': {
-      id: '/reports'
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
       path: '/reports'
       fullPath: '/reports'
-      preLoaderRoute: typeof ReportsRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AacRoute: AacRoute,
+  AgreementRoute: AgreementRoute,
+  AuthRoute: AuthRoute,
   GamesRoute: GamesRoute,
-  ReportsRoute: ReportsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
